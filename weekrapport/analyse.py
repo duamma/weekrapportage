@@ -102,6 +102,7 @@ class Analyse:
     acties: list[str] = field(default_factory=list)
     kort: list[str] = field(default_factory=list)
     account_actie: str | None = None
+    reeks: list = field(default_factory=list)   # [(week, Cijfers)] voor de grafiek
 
     @property
     def t(self):
@@ -200,6 +201,7 @@ def analyseer(data: Dataset, cfg: KlantConfig, week: date | None = None) -> Anal
         dimensies=dims_nu, segmenten=segmenten, verdwenen=verdwenen, nieuwe_dimensies=nieuwe_dims,
         heeft_conversies=any(r.conversies is not None for r in data.rijen),
     )
+    a.reeks = [(w, totalen[w]) for w in weken]
     _account_regels(a, cfg, [totalen[w] for w in weken])
     _segment_regels(a, cfg)
     _veranderingen(a, cfg)

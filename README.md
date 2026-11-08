@@ -6,9 +6,18 @@ Dit script maakt van een campagne-export (Excel of CSV) een weekrapport met drie
 2. **Wat aandacht vraagt:** segmenten die geld kosten zonder genoeg op te leveren, grote schommelingen, en wat juist goed werkt.
 3. **Wat ik zou doen:** maximaal vijf concrete adviezen.
 
-Het rapport wordt een HTML-pagina die je in de browser opent of doorstuurt. Daarnaast komt er een Markdown-versie (om in Slack, Notion of een mail te plakken) en een opgeschoond databestand.
+## Opgeleverd
 
-Voorbeeld: [`rapporten/zerocopter/2026-11-03_weekrapport.html`](rapporten/zerocopter/2026-11-03_weekrapport.html) (week 4).
+| Wat | Waar |
+|---|---|
+| De workflow (code) | `maak_rapport.py` en de map `weekrapport/` |
+| Output week 4: interactief rapport | [`rapporten/zerocopter/2026-11-03_weekrapport.html`](rapporten/zerocopter/2026-11-03_weekrapport.html). Download het en open het in je browser |
+| Output week 4: PDF | [`rapporten/zerocopter/2026-11-03_weekrapport.pdf`](rapporten/zerocopter/2026-11-03_weekrapport.pdf) |
+| Output week 4: tekst | [`rapporten/zerocopter/2026-11-03_weekrapport.md`](rapporten/zerocopter/2026-11-03_weekrapport.md). Deze kun je direct op GitHub lezen |
+| Opgeschoonde data, week 1-4 | `rapporten/zerocopter/schone_data.csv` |
+| Wat ik met meer tijd zou toevoegen | [onderaan deze README](#wat-ik-met-meer-tijd-zou-toevoegen) |
+
+Het HTML-rapport volgt de huisstijl uit het presentatietemplate: Inter Tight en Source Serif 4, petrol, mint en crème. Bovenaan staan KPI-kaarten en een grafiek per week. De tabellen zijn sorteerbaar en met de knop **Opslaan als PDF** maak je een A4-versie. Is Playwright voor Python geïnstalleerd, dan maakt het script die PDF ook zelf.
 
 ---
 
@@ -87,7 +96,8 @@ exports/<klant>/*.xlsx|csv
 | `weekrapport/inlezen.py` | Leest één export in en zet de kolommen om naar vaste interne namen |
 | `weekrapport/opschonen.py` | Voegt exports samen en voert de controles en correcties uit |
 | `weekrapport/analyse.py` | Berekent de cijfers en past de regels toe die tot signalen en adviezen leiden |
-| `weekrapport/rapport.py` | Schrijft het rapport |
+| `weekrapport/rapport.py` | Schrijft het rapport (Markdown en CSV) |
+| `weekrapport/html_rapport.py` | Schrijft het HTML-rapport en de PDF. De kleuren en fonts staan bovenaan in `HUISSTIJL` |
 
 ### Tegen een andere opbouw van de export bestand
 
@@ -187,3 +197,28 @@ Als het niet lukt, zegt de foutmelding welke kolom ontbreekt en in welk bestand 
 | `tomllib` niet gevonden | Je Python is ouder dan 3.11; installeer een nieuwere versie |
 | Een week staat in twee exports | Het script gebruikt de nieuwste export en zet dat onder Datakwaliteit |
 | Onder *Controleren* staat dat de export is gemaakt voordat de week voorbij was | Download de export opnieuw na afloop van de week en draai het rapport nog een keer |
+
+---
+
+## Wat ik met meer tijd zou toevoegen
+
+Deze lijst is gesorteerd op wat volgens mij de meeste waarde toevoegt.
+
+**Betere adviezen**
+1. **Een samenvatting in gewone taal door een LLM, bovenop de vaste regels.** De regels bepalen *wat* er gezegd wordt: het blijven controleerbare cijfers. Claude schrijft daar een korte toelichting bij voor de klant en mag daarbij alleen getallen gebruiken die het script heeft uitgerekend. Een check vergelijkt elk getal in de tekst met de data, zodat er geen verzonnen cijfers in komen.
+2. **Leadkwaliteit uit het CRM erbij halen.** Op dit moment kan het script alleen zeggen dat het de kwaliteit van leads niet weet. Met data uit HubSpot of Salesforce (welke leads werden een afspraak of een deal) wordt "kosten per lead" ook "kosten per goede lead". Het advies "vraag sales" verdwijnt dan.
+3. **Statistiek voor kleine aantallen.** Nu gelden er vaste minimumbedragen. Betrouwbaarheidsintervallen (bijvoorbeeld een Bayesiaanse schatting van de kosten per lead per segment) maken duidelijker hoe zeker elk signaal is.
+4. **Doelen per klant.** Een streefwaarde voor de kosten per lead en een maandbudget in de config, zodat het rapport ook zegt "op koers voor de maand: ja of nee".
+5. **Combinaties van dimensies**, zoals Functie × Bedrijfsgrootte, als de advertentietool die kan exporteren.
+
+**Minder handwerk**
+6. **De export automatisch ophalen** via de API van LinkedIn Ads of Google Ads, in plaats van downloaden en in een map zetten.
+7. **Een geplande run en verzending:** elke maandag om 9:00 via GitHub Actions of een cron-job, met het rapport naar Slack of de mail van de klant. Het script is daar al geschikt voor, want het draait zonder vragen en zonder opgeslagen toestand.
+8. **Een wizard voor een nieuwe klant:** `maak_rapport.py --nieuwe-klant` leest een voorbeeldexport en stelt de kolomnamen en labels voor de config zelf voor.
+9. **Een webformulier voor wie geen terminal gebruikt:** export erin slepen, rapport eruit. Te bouwen met Streamlit of als interne webpagina.
+
+**Robuuster**
+10. **Exports van meer platforms.** Een extra inleesfunctie per bron (Google Ads, Meta, één regel per campagne), die alles omzet naar hetzelfde interne formaat.
+11. **Een plek voor historie.** Een kleine database of een Google Sheet in plaats van een map met exports, zodat meerdere collega's dezelfde historie gebruiken.
+12. **Meer tests met afwijkende exports:** lege weken, valuta's, Engelstalige exports, kolommen in een andere volgorde.
+13. **Klantspecifieke huisstijl:** kleuren en logo per klant in de config, voor rapporten die rechtstreeks naar de klant gaan.

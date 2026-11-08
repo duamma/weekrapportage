@@ -11,6 +11,7 @@ from .analyse import Analyse
 from .config import KlantConfig
 from .opmaak import eur, getal, pct, pct_verschil, verandering, weekperiode, datum, week_kort, MIN
 from .opschonen import Dataset
+from .html_rapport import maak_html, maak_pdf
 
 
 # ---------------------------------------------------------------- markdown
@@ -152,29 +153,7 @@ def _datakwaliteit(a: Analyse, data: Dataset) -> list[str]:
 
 # ---------------------------------------------------------------- html
 
-CSS = """
-:root{--bg:#f7f7f5;--card:#ffffff;--tekst:#1d1d1b;--zacht:#5f5f5a;--lijn:#e2e1dc;--accent:#0b5cad;--kop:#f0efea}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#161615;--card:#1f1f1d;--tekst:#ecebe6;--zacht:#a3a29b;--lijn:#3a3936;--accent:#7ab4ff;--kop:#2a2927}}
-:root[data-theme="dark"]{--bg:#161615;--card:#1f1f1d;--tekst:#ecebe6;--zacht:#a3a29b;--lijn:#3a3936;--accent:#7ab4ff;--kop:#2a2927}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--tekst);font:15px/1.55 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-main{max-width:980px;margin:0 auto;padding:32px 16px 64px}
-h1{font-size:28px;margin:0 0 8px;letter-spacing:-.01em}
-h2{font-size:20px;margin:40px 0 12px;padding-top:16px;border-top:1px solid var(--lijn)}
-h3{font-size:16px;margin:24px 0 8px}
-p{margin:8px 0}
-ul,ol{padding-left:22px;margin:8px 0}
-li{margin:6px 0}
-strong{font-weight:600}
-code{font:13px ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--kop);padding:1px 5px;border-radius:4px}
-.tabel{overflow-x:auto;margin:12px 0;border:1px solid var(--lijn);border-radius:8px;background:var(--card)}
-table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:14px}
-th,td{padding:7px 10px;border-bottom:1px solid var(--lijn);white-space:nowrap}
-th{background:var(--kop);font-weight:600;text-align:left}
-tr:last-child td{border-bottom:0}
-.r{text-align:right}
-main>p:nth-of-type(1),main>p:nth-of-type(2){color:var(--zacht)}
-"""
+
 
 
 def _inline(s: str) -> str:
@@ -184,7 +163,7 @@ def _inline(s: str) -> str:
     return re.sub(r"`(.+?)`", r"<code>\1</code>", s)
 
 
-def markdown_naar_html(md: str, titel: str) -> str:
+def markdown_naar_html(md: str) -> str:
     """Kleine omzetter voor precies de Markdown die dit script zelf schrijft."""
     uit, regels, i = [], md.split("\n"), 0
     while i < len(regels):
@@ -215,10 +194,7 @@ def markdown_naar_html(md: str, titel: str) -> str:
         elif r.strip():
             uit.append(f"<p>{_inline(r)}</p>")
         i += 1
-    return (f'<!doctype html><html lang="nl"><head><meta charset="utf-8">'
-            f'<meta name="viewport" content="width=device-width, initial-scale=1">'
-            f"<title>{html.escape(titel)}</title><style>{CSS}</style></head><body><main>"
-            + "\n".join(uit) + "</main></body></html>")
+    return "\n".join(uit)
 
 
 # ---------------------------------------------------------------- bestanden
@@ -238,7 +214,8 @@ def schrijf_schone_data(data: Dataset, pad: Path):
                         nl(r.spend), nl(r.leads, 0), nl(r.conversies, 0), nl(cpl), r.bron])
 
 
-def schrijf(a: Analyse, data: Dataset, cfg: KlantConfig, gemaakt: datetime | None = None) -> dict[str, Path]:
+def schrijf(a: Analyse, data: Dataset, cfg: KlantConfig, gemaakt: datetime | None = None,
+           pdf: bool = True) -> dict[str, Path]:
     gemaakt = gemaakt or datetime.now()
     cfg.rapportmap.mkdir(parents=True, exist_ok=True)
     basis = cfg.rapportmap / f"{a.week:%Y-%m-%d}_weekrapport"
@@ -246,6 +223,10 @@ def schrijf(a: Analyse, data: Dataset, cfg: KlantConfig, gemaakt: datetime | Non
     paden = {"markdown": basis.with_suffix(".md"), "html": basis.with_suffix(".html"),
              "data": cfg.rapportmap / "schone_data.csv"}
     paden["markdown"].write_text(md, encoding="utf-8")
-    paden["html"].write_text(markdown_naar_html(md, f"Weekrapportage {a.klant} {a.week:%d-%m-%Y}"), encoding="utf-8")
+    paden["html"].write_text(maak_html(a, md, cfg, gemaakt), encoding="utf-8")
     schrijf_schone_data(data, paden["data"])
+    if pdf:
+        pdf_pad = basis.with_suffix(".pdf")
+        if maak_pdf(paden["html"], pdf_pad):
+            paden["pdf"] = pdf_pad
     return paden
