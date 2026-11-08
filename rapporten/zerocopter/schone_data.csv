@@ -1,0 +1,41 @@
+﻿week;dimensie;waarde;impressies;klikken;ctr_pct;uitgaven_eur;leads;websiteconversies;kosten_per_lead;bron
+2026-10-13;Functie;IT;13000;95;0,73;380,00;6;3;63,33;Campagne_Export_week_1-3.xlsx
+2026-10-13;Functie;Security / Risk;5200;52;1,00;150,00;4;2;37,50;Campagne_Export_week_1-3.xlsx
+2026-10-13;Functie;Consultancy;9800;63;0,64;260,00;5;0;52,00;Campagne_Export_week_1-3.xlsx
+2026-10-13;Functie;Onderwijs;5000;34;0,68;120,00;2;0;60,00;Campagne_Export_week_1-3.xlsx
+2026-10-13;Functie;Overig;5000;26;0,52;140,00;1;0;140,00;Campagne_Export_week_1-3.xlsx
+2026-10-13;Bedrijfsgrootte;1-49;11500;78;0,68;310,00;6;0;51,67;Campagne_Export_week_1-3.xlsx
+2026-10-13;Bedrijfsgrootte;50-249;10200;72;0,71;290,00;5;1;58,00;Campagne_Export_week_1-3.xlsx
+2026-10-13;Bedrijfsgrootte;250-999;9600;70;0,73;270,00;4;2;67,50;Campagne_Export_week_1-3.xlsx
+2026-10-13;Bedrijfsgrootte;1.000+;6700;50;0,75;180,00;3;2;60,00;Campagne_Export_week_1-3.xlsx
+2026-10-20;Functie;IT;14000;100;0,71;420,00;7;3;60,00;Campagne_Export_week_1-3.xlsx
+2026-10-20;Functie;Security / Risk;5500;56;1,02;160,00;5;3;32,00;Campagne_Export_week_1-3.xlsx
+2026-10-20;Functie;Consultancy;10500;68;0,65;300,00;5;0;60,00;Campagne_Export_week_1-3.xlsx
+2026-10-20;Functie;Onderwijs;5800;38;0,66;150,00;2;0;75,00;Campagne_Export_week_1-3.xlsx
+2026-10-20;Functie;Overig;5200;28;0,54;150,00;1;0;150,00;Campagne_Export_week_1-3.xlsx
+2026-10-20;Bedrijfsgrootte;1-49;12800;86;0,67;360,00;7;0;51,43;Campagne_Export_week_1-3.xlsx
+2026-10-20;Bedrijfsgrootte;50-249;11000;78;0,71;330,00;6;1;55,00;Campagne_Export_week_1-3.xlsx
+2026-10-20;Bedrijfsgrootte;250-999;10100;75;0,74;290,00;4;3;72,50;Campagne_Export_week_1-3.xlsx
+2026-10-20;Bedrijfsgrootte;1.000+;7100;51;0,72;200,00;3;2;66,67;Campagne_Export_week_1-3.xlsx
+2026-10-27;Functie;IT;14800;104;0,70;450,00;7;2;64,29;Campagne_Export_week_1-3.xlsx
+2026-10-27;Functie;Security / Risk;5300;55;1,04;155,75;6;3;25,96;Campagne_Export_week_1-3.xlsx
+2026-10-27;Functie;Consultancy;11200;70;0,62;330,00;5;0;66,00;Campagne_Export_week_1-3.xlsx
+2026-10-27;Functie;Onderwijs;6600;42;0,64;170,00;2;0;85,00;Campagne_Export_week_1-3.xlsx
+2026-10-27;Functie;Overig;5600;29;0,52;160,00;1;0;160,00;Campagne_Export_week_1-3.xlsx
+2026-10-27;Bedrijfsgrootte;1-49;13900;90;0,65;400,00;8;0;50,00;Campagne_Export_week_1-3.xlsx
+2026-10-27;Bedrijfsgrootte;50-249;11800;82;0,69;355,75;6;1;59,29;Campagne_Export_week_1-3.xlsx
+2026-10-27;Bedrijfsgrootte;250-999;10500;75;0,71;300,00;4;2;75,00;Campagne_Export_week_1-3.xlsx
+2026-10-27;Bedrijfsgrootte;1.000+;7300;53;0,73;210,00;3;2;70,00;Campagne_Export_week_1-3.xlsx
+2026-11-03;Functie;IT;8200;60;0,73;230,00;3;1;76,67;Campagne_export_week_4.xlsx
+2026-11-03;Functie;Security / Risk;6500;72;1,11;210,00;6;4;35,00;Campagne_export_week_4.xlsx
+2026-11-03;Functie;Consultancy;4200;22;0,52;120,00;2;0;60,00;Campagne_export_week_4.xlsx
+2026-11-03;Functie;Onderwijs;2500;14;0,56;50,00;0;0;;Campagne_export_week_4.xlsx
+2026-11-03;Functie;Overig;2600;12;0,46;80,00;1;0;80,00;Campagne_export_week_4.xlsx
+2026-11-03;Bedrijfsgrootte;1-49;3200;20;0,62;90,00;1;0;90,00;Campagne_export_week_4.xlsx
+2026-11-03;Bedrijfsgrootte;50-249;5300;38;0,72;150,00;2;1;75,00;Campagne_export_week_4.xlsx
+2026-11-03;Bedrijfsgrootte;250-999;8800;68;0,77;250,00;5;2;50,00;Campagne_export_week_4.xlsx
+2026-11-03;Bedrijfsgrootte;1.000+;6700;54;0,81;200,00;4;2;50,00;Campagne_export_week_4.xlsx
+2026-11-03;Senioriteit;Manager;9100;70;0,77;260,00;4;2;65,00;Campagne_export_week_4.xlsx
+2026-11-03;Senioriteit;Director;6900;55;0,80;200,00;5;2;40,00;Campagne_export_week_4.xlsx
+2026-11-03;Senioriteit;CXO;3200;30;0,94;110,00;3;1;36,67;Campagne_export_week_4.xlsx
+2026-11-03;Senioriteit;Entry / Senior;4800;25;0,52;120,00;0;0;;Campagne_export_week_4.xlsx

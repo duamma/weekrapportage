@@ -1,0 +1,59 @@
+# Klantconfiguratie voor de weekrapportage.
+# Eén bestand per klant. Voor een nieuwe klant: kopieer dit bestand naar
+# klanten/<klantnaam>.toml en pas het aan (zie README, "Een tweede klant toevoegen").
+
+[klant]
+naam = "ZeroCopter"                  # naam in de titel van het rapport
+account = "ZeroCopter"               # moet gelijk zijn aan de regel "Account: ..." in de export (leeg = niet controleren)
+exportmap = "exports/zerocopter"     # hier zet je de exports neer
+rapportmap = "rapporten/zerocopter"  # hier komen de rapporten
+
+[kpi]
+# Waarop stuurt deze klant? "leads" of "conversies" (websiteconversies).
+primair = "leads"
+
+# Welke kolomnaam in de export hoort bij welk gegeven?
+# Links staat de vaste interne naam, rechts alle namen die in exports voorkomen.
+# Hoofdletters maken niet uit, en een toevoeging tussen haakjes ook niet:
+# "Spend (EUR)" wordt herkend als "Spend".
+[kolommen]
+week       = ["Week", "Week (startdatum)", "Startdatum week", "Weekstart"]
+dimensie   = ["Dimensie", "Dimension"]
+waarde     = ["Waarde", "Segment", "Value"]
+impressies = ["Impressies", "Impressions", "Vertoningen"]
+klikken    = ["Klikken", "Clicks"]
+ctr        = ["CTR", "Doorklikratio"]
+spend      = ["Uitgaven", "Spend", "Kosten", "Cost", "Amount spent"]
+leads      = ["Leads"]
+conversies = ["Websiteconversies", "Conversies", "Website conversions", "Conversions"]
+
+# Andere namen voor dimensies (alias = vaste naam). Leeg laten als het niet nodig is.
+[dimensies]
+"Job function" = "Functie"
+"Company size" = "Bedrijfsgrootte"
+"Seniority"    = "Senioriteit"
+
+# Andere schrijfwijzen voor dezelfde segmenten: "zoals in de export" = "zoals in het rapport".
+# Kleine verschillen (hoofdletters, spaties, punten: "1000+" en "1.000+") voegt het
+# script ook zelf samen. Leg ze hier toch vast, dan weet je zeker welke naam wint.
+[labels.Functie]
+"Informatietechnologie" = "IT"
+
+[labels.Bedrijfsgrootte]
+"1000+" = "1.000+"
+
+# Drempels voor de signalen en adviezen. Niet nodig om aan te passen; alleen als
+# de klant een heel ander budget heeft (zie README).
+[drempels]
+grote_verandering_pct      = 25    # totale uitgaven veranderen meer dan dit % t.o.v. vorige week
+kpi_verandering_pct        = 20    # kosten per lead veranderen meer dan dit %
+min_uitgaven_week          = 100   # segment met minstens zoveel euro deze week en 0 leads
+min_uitgaven_periode       = 300   # segment telt pas mee voor periode-signalen vanaf dit bedrag
+min_weken_zonder_conversie = 3     # zoveel weken zonder één websiteconversie geeft een signaal
+min_leads_winnaar          = 3     # een "winnaar" heeft deze week minstens zoveel leads
+factor_duur                = 1.3   # kosten per lead >= 1,3x het gemiddelde = te duur
+factor_goedkoop            = 0.7   # kosten per lead <= 0,7x het gemiddelde = kans
+factor_kwaliteitscheck     = 1.1   # tot 1,1x het gemiddelde en nooit conversie = check leadkwaliteit
+verschuiving_pp            = 10    # budgetaandeel van een segment verschuift meer dan zoveel procentpunt
+ctr_tolerantie_pp          = 0.05  # CTR in de export mag zoveel procentpunt afwijken van klikken/impressies
+max_acties                 = 5     # maximaal aantal adviezen in "Wat ik zou doen"
