@@ -76,12 +76,26 @@ details{{margin:44px 0 0}} details>summary{{cursor:pointer;list-style:none}}
 details>summary h2{{display:inline-block;margin:0}} details>summary::after{{content:"Toon / verberg";font-size:12px;color:var(--petrol);margin-left:12px;font-weight:600}}
 footer{{color:var(--grijs);font-size:12px;margin-top:48px;border-top:1px solid var(--lijn);padding-top:12px}}
 @media print{{
-  @page{{size:A4;margin:14mm}}
-  body{{background:#fff;font-size:12px}} .knoppen{{display:none}}
-  .hero{{-webkit-print-color-adjust:exact;print-color-adjust:exact;padding:24px 20px}}
-  th,.chip,.kpi{{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
-  details>summary::after{{display:none}} .kpi,.grafiek,.tabel,tr,li{{break-inside:avoid}} h2{{break-after:avoid}}
-  .tabel{{overflow:visible}} th,td{{padding:5px 7px;white-space:normal}}
+  @page{{size:A4;margin:12mm 0 14mm 0}}
+  @page:first{{margin-top:0}}
+  body{{background:#fff;font-size:11px;line-height:1.45}}
+  *{{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+  .knoppen,details>summary::after,footer,th[aria-sort]::after{{display:none}}
+  .hero{{padding:14mm 14mm 9mm}}
+  .hero h1{{font-size:34px;margin:6px 0 6px}}
+  main.wrap{{max-width:none;padding:0 14mm}}
+  .kpis{{grid-template-columns:repeat(4,1fr);gap:8px;padding:14px 0 4px}}
+  .kpi{{padding:10px 12px;border-radius:10px}} .kpi .waarde{{font-size:26px}} .kpi .sub{{font-size:10px}}
+  .grafieken{{grid-template-columns:repeat(3,1fr);gap:8px;margin:8px 0}}
+  .grafiek{{padding:8px 10px;border-radius:10px}}
+  h2{{font-size:19px;margin:20px 0 8px;break-after:avoid;break-inside:avoid}} h2::before{{break-after:avoid}} h2::before{{font-size:13px}}
+  h3{{font-size:13px;margin:12px 0 6px;break-after:avoid}}
+  details{{margin:20px 0 0}}
+  li{{margin:4px 0}}
+  .sectie-kort,.kpi,.grafiek,.tabel,tr,li{{break-inside:avoid}}
+  .sectie-details{{break-before:page}}
+  .tabel{{overflow:visible;border-radius:8px}}
+  table{{font-size:9.5px}} th,td{{padding:4px 6px;white-space:nowrap}} th{{white-space:normal}}
 }}
 """
 
@@ -186,7 +200,9 @@ def _secties(body: str) -> str:
         if titel in ("Details per segment", "Datakwaliteit", "Over dit rapport"):
             kop, rest = st.split("</h2>", 1)
             st = f"<details{' open' if titel == 'Details per segment' else ''}><summary>{kop}</h2></summary>{rest}</details>"
-        uit.append(st)
+        klasse = {"In het kort": "sectie-kort", "Wat ik zou doen": "sectie-kort", "Over dit rapport": "sectie-kort", "Wat aandacht vraagt": "sectie-kort",
+                  "Details per segment": "sectie-details"}.get(titel, "")
+        uit.append(f'<section class="{klasse}">{st}</section>')
     return "".join(uit)
 
 
@@ -226,8 +242,7 @@ def maak_pdf(html_pad: Path, pdf_pad: Path) -> bool:
             pagina = browser.new_page()
             pagina.goto(Path(html_pad).resolve().as_uri(), wait_until="networkidle")
             pagina.evaluate("document.querySelectorAll('details').forEach(d => d.open = true)")
-            pagina.pdf(path=str(pdf_pad), format="A4", print_background=True,
-                       margin={"top": "12mm", "bottom": "12mm", "left": "10mm", "right": "10mm"})
+            pagina.pdf(path=str(pdf_pad), print_background=True, prefer_css_page_size=True)
             browser.close()
         return True
     except Exception:

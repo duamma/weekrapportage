@@ -2,7 +2,7 @@
 
 **Week van 3 t/m 9 november 2026** · vergeleken met 27 oktober t/m 2 november 2026
 
-Gemaakt op 8 november 2026 om 11:06 uit Campagne_export_week_4.xlsx en 1 eerdere export(s). Historie: 4 weken (week van 13 okt t/m week van 3 nov).
+Gemaakt op 8 november 2026 om 11:16 uit Campagne_export_week_4.xlsx en 1 eerdere export(s). Historie: 4 weken (week van 13 okt t/m week van 3 nov).
 
 ## In het kort
 
